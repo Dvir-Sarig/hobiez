@@ -5,7 +5,6 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import services.TokenService
 import users.UserManagerService
 import users.UserType
 import javax.inject.Inject
@@ -18,7 +17,6 @@ data class LoginRequest(
 
 class LoginController @Inject constructor(
     private val userManagerService: UserManagerService,
-    private val tokenService: TokenService
 ){
 
     fun startRouting(route: Route) = with(route) {
@@ -28,10 +26,9 @@ class LoginController @Inject constructor(
     private fun Route.loginRoute() {
         post("/login") {
             val loginRequest = call.receive<LoginRequest>()
-            val user = userManagerService.authenticateUser(loginRequest)
-            if (user != null) {
-                val token = tokenService.generateToken(user)
-                call.respond(HttpStatusCode.OK, mapOf("token" to token))
+            val loginResponse = userManagerService.authenticateUser(loginRequest)
+            if (loginResponse != null) {
+                call.respond(HttpStatusCode.OK, loginResponse)
             } else {
                 call.respond(HttpStatusCode.Unauthorized, "Invalid email, password, or user type")
             }

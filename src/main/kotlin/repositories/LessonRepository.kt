@@ -52,6 +52,38 @@ class LessonRepository @Inject constructor(
         }
     }
 
+    fun getAvailableLessons(): List<Lesson> {
+        return transaction(lessonsDatabase) {
+            LessonsTable.selectAll().mapNotNull { row ->
+                val lesson = rowToLesson(row)
+                val registeredClientsCount = ClientLessonsTable
+                    .select { ClientLessonsTable.lessonId eq lesson.id!! }
+                    .count()
+                if (registeredClientsCount < lesson.capacityLimit) {
+                    lesson
+                } else {
+                    null
+                }
+            }
+        }
+    }
+
+    fun getLessonsForClient(clientId: Int): List<Lesson> {
+        return transaction(lessonsDatabase) {
+            (LessonsTable innerJoin ClientLessonsTable)
+                .select { ClientLessonsTable.clientId eq clientId }
+                .map { rowToLesson(it) }
+        }
+    }
+
+    fun getLessonsForCoach(coachId: Int): List<Lesson> {
+        return transaction(lessonsDatabase) {
+            LessonsTable.select { LessonsTable.coachId eq coachId }
+                .map { rowToLesson(it) }
+        }
+    }
+
+
     private fun rowToLesson(row: ResultRow): Lesson {
         return Lesson(
             id = row[LessonsTable.id],
