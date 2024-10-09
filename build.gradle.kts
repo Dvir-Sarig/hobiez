@@ -21,6 +21,11 @@ dependencies {
     implementation("io.ktor:ktor-server-core:2.3.3")
     implementation("io.ktor:ktor-server-netty:2.3.3")
 
+    // Ktor Auth
+    implementation("io.ktor:ktor-server-auth:2.0.0")
+    implementation("io.ktor:ktor-server-auth-jwt:2.0.0")
+
+
     // Ktor JSON support (serialization)
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
     implementation("io.ktor:ktor-serialization-jackson:2.3.3")
@@ -51,6 +56,12 @@ dependencies {
     // Test dependencies
     testImplementation("io.ktor:ktor-server-tests:2.3.3")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.10")
+
+    // Jwt Token
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
 }
 
 

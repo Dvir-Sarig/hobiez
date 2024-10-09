@@ -9,4 +9,8 @@ class ClientsManagerService @Inject constructor(
     fun addClient(client: Client) {
         clientRepository.addClient(client.name, client.email, client.password)
     }
+
+    fun findClientByEmail(email: String): Client?{
+        return clientRepository.findClientByEmail(email)
+    }
 }

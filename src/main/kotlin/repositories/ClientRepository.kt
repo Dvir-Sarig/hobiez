@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import tables.ClientsTable
+import users.client.Client
 import javax.inject.Inject
 
 class ClientRepository @Inject constructor(
@@ -35,5 +36,22 @@ class ClientRepository @Inject constructor(
         return transaction(clientDatabase) {
             ClientsTable.deleteWhere { ClientsTable.id eq id } > 0
         }
+    }
+
+    fun findClientByEmail(email: String): Client? {
+        return transaction(clientDatabase) {
+            ClientsTable.select { ClientsTable.email eq email }
+                .map { rowToClient(it) }
+                .singleOrNull()
+        }
+    }
+
+    private fun rowToClient(row: ResultRow): Client {
+        return Client(
+            id = row[ClientsTable.id],
+            name = row[ClientsTable.name],
+            email = row[ClientsTable.email],
+            password = row[ClientsTable.password]
+        )
     }
 }
