@@ -4,6 +4,8 @@ import com.google.inject.name.Named
 import lesson.Lesson
 import lesson.LessonsType
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.transactions.transaction
 import tables.ClientLessonsTable
 import tables.LessonsTable
@@ -83,6 +85,16 @@ class LessonRepository @Inject constructor(
         }
     }
 
+    fun deleteExpiredLessons() {
+        val currentTime = LocalDateTime.now()
+        transaction(lessonsDatabase) {
+            LessonsTable.deleteWhere { time.less(currentTime) }
+            ClientLessonsTable.deleteWhere { lessonId inList
+                    LessonsTable.select { LessonsTable.time.less(currentTime) }
+                        .map { it[LessonsTable.id] }
+            }
+        }
+    }
 
     private fun rowToLesson(row: ResultRow): Lesson {
         return Lesson(

@@ -25,8 +25,8 @@ class ApiManager @Inject constructor(
     private val lessonRegistrationController: LessonRegistrationController,
     private val loginController: LoginController,
     private val lessonQueryController: LessonQueryController,
-    private val clientLessonsController: ClientLessonsController,
-    private val coachLessonsController: CoachLessonsController
+    private val coachInfoController: CoachInfoController,
+    private val clientInfoController: ClientInfoController
 ) {
     private val logger = LoggerFactory.getLogger(ApiManager::class.java)
 
@@ -68,15 +68,15 @@ class ApiManager @Inject constructor(
         application.routing {
             // נתיבים לא מוגנים
             createUserController.startRouting(this)
-            createLessonController.startRouting(this)
             loginController.startRouting(this)
             lessonQueryController.startRouting(this)
-            coachLessonsController.startRouting(this)
 
             // נתיבים מוגנים על ידי JWT
             authenticate("auth-jwt") {
                 lessonRegistrationController.startRouting(this)
-                clientLessonsController.startRouting(this)
+                createLessonController.startRouting(this)
+                coachInfoController.startRouting(this)
+                clientInfoController.startRouting(this)
             }
         }
     }

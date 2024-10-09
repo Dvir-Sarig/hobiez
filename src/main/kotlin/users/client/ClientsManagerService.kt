@@ -13,4 +13,8 @@ class ClientsManagerService @Inject constructor(
     fun findClientByEmail(email: String): Client?{
         return clientRepository.findClientByEmail(email)
     }
+
+    fun findClientById(clientId: Int): Client{
+        return clientRepository.findClientById(clientId)!!
+    }
 }

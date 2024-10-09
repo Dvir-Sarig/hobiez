@@ -21,6 +21,7 @@ class LessonsManagerService @Inject constructor(
     }
 
     fun getAvailableLessons(): List<Lesson>{
+        lessonRepository.deleteExpiredLessons()
         return lessonRepository.getAvailableLessons()
     }
 

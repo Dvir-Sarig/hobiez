@@ -46,6 +46,14 @@ class ClientRepository @Inject constructor(
         }
     }
 
+    fun findClientById(clientId: Int): Client?{
+        return transaction(clientDatabase) {
+            ClientsTable.select { ClientsTable.id eq clientId }
+                .map { rowToClient(it) }
+                .singleOrNull()
+        }
+    }
+
     private fun rowToClient(row: ResultRow): Client {
         return Client(
             id = row[ClientsTable.id],

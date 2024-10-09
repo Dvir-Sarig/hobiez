@@ -13,4 +13,8 @@ class CoachesManagerService @Inject constructor(
     fun findCoachByEmail(email: String): Coach? {
         return coachRepository.findCoachByEmail(email)
     }
+
+    fun findCoachById(coachId: Int): Coach {
+        return coachRepository.findCoachById(coachId)!!
+    }
 }

@@ -31,6 +31,14 @@ class CoachRepository @Inject constructor(
         }
     }
 
+    fun findCoachById(coachId: Int): Coach? {
+        return transaction(coachDatabase) {
+            CoachesTable.select { CoachesTable.id eq coachId }
+                .map { rowToCoach(it) }
+                .singleOrNull()
+        }
+    }
+
     private fun rowToCoach(row: ResultRow): Coach {
         return Coach(
             id = row[CoachesTable.id],
