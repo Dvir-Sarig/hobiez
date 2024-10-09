@@ -1,14 +1,13 @@
 package lesson
 
-import users.client.Client
-import java.time.Instant
+import java.time.LocalDateTime
 
 data class Lesson(
+    val id: Int? = null,
     val title: String,
     val description: String,
-    val time: Instant,
+    val time: LocalDateTime,
     val coachId: Int,
     val price: Double,
-    val participants: MutableList<Client>,
     val capacityLimit: Int
 )

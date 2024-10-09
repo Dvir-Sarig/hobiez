@@ -5,7 +5,10 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
+import tables.ClientLessonsTable
+import tables.ClientsTable
 import tables.CoachesTable
+import tables.LessonsTable
 import javax.inject.Inject
 
 class DatabaseInitializationService @Inject constructor(
@@ -19,10 +22,12 @@ class DatabaseInitializationService @Inject constructor(
             user = databaseConfig.dbUser,
             password = databaseConfig.dbPassword
         ).also {
-            logger.info("Successfully connected to coaches database.")
-            transaction(it) {
-                SchemaUtils.create(CoachesTable)
-                logger.info("Coaches table created successfully.")
+            logger.info("Successfully connected to $databaseName database.")
+            if (databaseName == "users") {
+                transaction(it) {
+                    SchemaUtils.create(CoachesTable, LessonsTable, ClientsTable, ClientLessonsTable)
+                    logger.info("tables created successfully.")
+                }
             }
         }
     }

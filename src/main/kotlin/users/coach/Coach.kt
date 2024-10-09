@@ -1,10 +1,8 @@
 package users.coach
 
-import lesson.Lesson
-
 class Coach(
+    val id: Int? = null,
     val name: String,
     val email: String,
     val password: String,
-    val offeredLessons: MutableList<Lesson>
 )

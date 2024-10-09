@@ -20,7 +20,7 @@ class CreateLessonController @Inject constructor(
         post("/create-lesson") {
             val lesson = call.receive<Lesson>()
             lessonsManagerService.addLesson(lesson)
-            call.respond(HttpStatusCode.Created, "Coach created successfully")
+            call.respond(HttpStatusCode.Created, "Lesson created successfully")
         }
     }
 }

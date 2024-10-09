@@ -25,6 +25,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.3")
     implementation("io.ktor:ktor-serialization-jackson:2.3.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3")
 
     // Ktor Status Pages
     implementation("io.ktor:ktor-server-status-pages:2.3.3")

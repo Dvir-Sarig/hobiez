@@ -13,20 +13,20 @@ class AppModule : AbstractModule() {
     @Singleton
     @Named("clientDatabase")
     fun provideClientDatabase(databaseInitializationService: DatabaseInitializationService): Database {
-        return databaseInitializationService.connectToDatabase("clients")
+        return databaseInitializationService.connectToDatabase("users")
     }
 
     @Provides
     @Singleton
     @Named("coachDatabase")
     fun provideCoachDatabase(databaseInitializationService: DatabaseInitializationService): Database {
-        return databaseInitializationService.connectToDatabase("coaches")
+        return databaseInitializationService.connectToDatabase("users")
     }
 
     @Provides
     @Singleton
     @Named("lessonsDatabase")
     fun provideLessonsDatabase(databaseInitializationService: DatabaseInitializationService): Database {
-        return databaseInitializationService.connectToDatabase("lessons")
+        return databaseInitializationService.connectToDatabase("users")
     }
 }
