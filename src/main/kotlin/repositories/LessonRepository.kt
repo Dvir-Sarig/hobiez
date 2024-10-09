@@ -2,6 +2,7 @@ package repositories
 
 import com.google.inject.name.Named
 import lesson.Lesson
+import lesson.LessonsType
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import tables.ClientLessonsTable
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class LessonRepository @Inject constructor(
     @Named("lessonsDatabase") private val lessonsDatabase: Database
 ) {
-    fun addLesson(title: String, description: String, time: LocalDateTime, coachId: Int, price: Double, capacityLimit: Int) {
+    fun addLesson(title: LessonsType, description: String, time: LocalDateTime, coachId: Int, price: Double, capacityLimit: Int) {
         transaction(lessonsDatabase) {
             LessonsTable.insert {
                 it[LessonsTable.title] = title
